@@ -27,7 +27,7 @@ https://tel.archives-ouvertes.fr/tel-00831596/document on page 54 (table 2.2)
 We display on top the magnitude of the correlation peak -- with some leftover modulation introduced
 by the coarse frequency correction -- and on the bottom the phase prior to fine frequency offset
 correction, its linear fit for fine frequency offset identification, and the BPSK signal after
-fine frequency correction (yello)
+fine frequency correction (yellow)
 
 <img src="figures/fig3.png">
 
