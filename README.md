@@ -18,7 +18,8 @@ is 10000 bits at a rate of 2.5 Mchips/s or a Pulse Repetition Interval of 4 ms
 <img src="figures/fig2.png">
 
 3. Correlate the frequency shifted signal with the pseudo-random sequence, here which code
-is associated with which frequency shift has been identified by exaustive search, although the
+is associated with which frequency shift has been identified by exaustive search as described
+in the ./reverse_code subdirectory, although the
 list of frequency offsets for each station can be found in A. Kanj, "Etude et développement de 
 la méthode TWSTFT phase pour des comparaisons hautes performances d’étalons primaires de fréquence"
 [in French] (2013) at

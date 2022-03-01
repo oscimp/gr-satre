@@ -8,8 +8,13 @@ state of all 1s.
 
 Indeed all received signal offsets as detected by squaring the signal to get
 rid of the BPSK modulation is associated, after compensation of the frequency
-offset, to one code. Only a subset of all possible codes are actually used so
-that visible interferences do not impact SATRE codes.
+offset, to one (or more) code. Only a subset of all possible codes are actually 
+used so that visible interferences do not impact SATRE codes. In the charts below,
+all possible codes are correlated for each possible frequency offset as indicated
+and peaks are visible for the code associated with each station. Notice how the
+implementation stores the FFT of each code and performs the correlation as
+matrix product of the FFT of the frequency shifted signal: matrix operation greatly
+improves speed over a loop in GNU/Octave or Matlab.
 
 <img src="fig01_squared.png">
 
@@ -25,4 +30,8 @@ that visible interferences do not impact SATRE codes.
 <img src="fig15_p19312.png">
 <img src="fig17_p32130.png">
 
+[0] P. Hartl, Present State of Long Distance Time Transfer via Satellites with Application
+of the MITREX-MoDem, MILCOM 1986 - IEEE Military Communications Conference (5-9 Oct. 1986)
 
+[1] K. Imamura, F. Takahashi, Frequency and Time Comparison -- Two Way Time Transfer
+via a Geostationnary Satellite, pp.91-100 (March 1992) at http://www.nict.go.jp/publication/journal/39/001/Journal_Vol39_No001_pp091-100.pdf
