@@ -59,22 +59,41 @@ for k=[ 1 16]                      % 1=OP01  16=LTFB01
       % p=p+1;
    end
    indices=find(abs(prnmap)>0.5*max(abs(prnmap)));
-   % dindinces=diff(indices);iindices=find(dindices>1);indices=indices(iindices);
-   sol=prnmap(indices);
-   [a,b]=polyfit(indices,unwrap(angle(sol)*2)/2,1); % *2 so that [0,pi] becomes [0,2pi]=0
+   % sol=prnmap(indices);                % introduces adjacent points above threshold: too simple
+   myposmax=[];    % search local minimum in each contiguous interval
+   mymaxm1=[];
+   sol=[];
+   mymaxp1=[];
+   correction=[];
+   p=1;
+   posd=indices(1);
+   for l=2:length(indices)
+       if ((indices(l)-indices(l-1))>3)  % more than one sample in threshold correlation peak
+          [~,tmp]=max(abs(prnmap(posd:indices(l-1))));
+          myposmax=[myposmax tmp+posd-1];
+          solm1=[mymaxm1 prnmap(tmp+posd-2)];
+          sol=[sol prnmap(tmp+posd-1)];
+          solp1=[mymaxp1 prnmap(tmp+posd)];
+          posd=indices(l);
+          [u,v]=polyfit([-1:+1]',abs(prnmap([tmp+posd-2:tmp+posd])),2);
+          correction(p)=-u(2)/2/u(1);
+          p=p+1;
+       end
+   end
+   [a,b]=polyfit(myposmax,unwrap(angle(sol)*2)/2,1); % *2 so that [0,pi] becomes [0,2pi]=0
  
    figure
-   subplot(211);plot(indices/fs,abs(sol)); xlabel('time (s)');ylabel('magnitude (a.u.)')
-   subplot(212);plot(indices/fs,unwrap(angle(sol)*2)/2);xlabel('time (s)');ylabel('phase (rad)')
-   hold on     ;plot(indices/fs,b.yf)
-   sol=sol.*exp(-j*indices*a(1));
+   subplot(211);plot(myposmax/fs,abs(sol)); xlabel('time (s)');ylabel('magnitude (a.u.)')
+   subplot(212);plot(myposmax/fs,unwrap(angle(sol)*2)/2);xlabel('time (s)');ylabel('phase (rad)')
+   hold on     ;plot(myposmax/fs,b.yf)
+   sol=sol.*exp(-j*myposmax*a(1));
    solangle=angle(sol); kp=find(solangle>2); solangle(kp)=solangle(kp)-2*pi;
-   plot(indices/fs,solangle,'-')
+   plot(myposmax/fs,solangle,'-')
    -freq(solution(freq_index))/2
    frequency_offset=a(1)/2/pi*fs
 
    % fine frequency offset 
-   df=-frequency_offset;
+   df=-frequency_offset;        % transpose again the previous transposed data
    lo=exp(j*2*pi*df*temps);     % local oscillator LO
    y=y.*lo;                     % frequency transposition by LO
    prnmap=xcorr(y,prn);         % prnmap(:,p)=xcorr(y,prn);
