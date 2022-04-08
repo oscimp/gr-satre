@@ -2,12 +2,14 @@ close all
 clear all
 pkg load signal
 
+filename='../B210/210708_16h06UTC_satre_8bit_5MSps_60dB.bin';
+
 fs=5e6;   % MS/s
 fcode=2.5e6;
 if (exist("read_complex_binary")==0)
    printf("Please download read_complex_binary.m at https://github.com/gnuradio/gnuradio/blob/master/gr-utils/octave/read_complex_binary.m")
 end
-x=read_complex_binary('210708_16h06UTC_satre_8bit_5MSps_60dB.bin');
+x=read_complex_binary(filename,1e5);
 
 %%%%%%%%%%%%%%%%%%%%%%% 
 temps=[0:length(x)-1]'/fs;      % discrete time
@@ -26,104 +28,111 @@ freq(solution)/2                % frequency offsets of the received stations
 %   -8.1349e+03  -8.1158e+03  -8.0968e+03   7.9156e+02   8.1063e+02   8.2970e+02   5.2929e+03
 %    1.9293e+04   1.9312e+04   1.9331e+04   3.2110e+04   3.2130e+04
 
-df=-freq(solution(8))/2
-lo=exp(j*2*pi*df*temps);
-y=x.*lo;
 figure                          % autocorrelation repetition rate = sequence length
-absxcorr=abs(xcorr(y(1:1e5)));
+absxcorr=abs(xcorr(x(1:1e5)));
 plot([-1e5+1:1e5-1]/fs,absxcorr,'x-') % 4 ms @ 2.5 Mchip/s = 10000 bit long sequence
 xlabel('time delay');ylabel('autocorrelation');ylim([0 100])
 
-load taps
+load taps; taps=taps';
 
-for k=[ 1 16]                      % 1=OP01  16=LTFB01
+freq_offset=[-8944 31300]; 
+index=[1 16]; 
+ncode=fs/fcode*length(taps);
+for k=1:2                          % 1=OP01  16=LTFB01
    prn=[];
    t=0;
    for m=1:length(taps)            % PRN length 
      do
        t=t+1/fs*1e6;
-       prn=[prn taps(m,k)];        % resample PRN to match sampling rate
+       prn=[prn taps(m,index(k))]; % resample PRN to match sampling rate
      until (t>dt);
      t=t-dt;
    end 
+   prn=prn(1:end-1);
+   prn=prn-mean(prn);
+   ref=[prn' ; zeros(length(prn)*9,1)];
+   fftref=conj(fft(ref));
+   temps=[0:length(ref)-1]'/fs;    % discrete time
    
    % coarse frequency offset
-   if (k==1) freq_index=8; else freq_index=18; end
-   % p=1;
-   % for df=7000:100:9000          % no need for brute force: we already know possible freq offsets
-   for df=-freq(solution(freq_index))/2
-      lo=exp(j*2*pi*df*temps);     % local oscillator LO
-      y=x.*lo;                     % frequency transposition by LO
-      prnmap=xcorr(y,prn);         % prnmap(:,p)=xcorr(y,prn);
-      prnmap=prnmap(floor(length(prnmap)/2):end);
-      % p=p+1;
-   end
-   indices=find(abs(prnmap)>0.5*max(abs(prnmap)));
-   % sol=prnmap(indices);                % introduces adjacent points above threshold: too simple
-   myposmax=[];    % search local minimum in each contiguous interval
-   mymaxm1=[];
-   sol=[];
-   mymaxp1=[];
-   correction=[];
-   p=1;
-   posd=indices(1);
-   for l=2:length(indices)
-       if ((indices(l)-indices(l-1))>3)  % more than one sample in threshold correlation peak
-          [~,tmp]=max(abs(prnmap(posd:indices(l-1))));
-          myposmax=[myposmax tmp+posd-1];
-          solm1=[mymaxm1 prnmap(tmp+posd-2)];
-          sol=[sol prnmap(tmp+posd-1)];
-          solp1=[mymaxp1 prnmap(tmp+posd)];
-          posd=indices(l);
-          [u,v]=polyfit([-1:+1]',abs(prnmap([tmp+posd-2:tmp+posd])),2);
-          correction(p)=-u(2)/2/u(1);
-          p=p+1;
-       end
-   end
-   [a,b]=polyfit(myposmax,unwrap(angle(sol)*2)/2,1); % *2 so that [0,pi] becomes [0,2pi]=0
- 
-   figure
-   subplot(211);plot(myposmax/fs,abs(sol)); xlabel('time (s)');ylabel('magnitude (a.u.)')
-   subplot(212);plot(myposmax/fs,unwrap(angle(sol)*2)/2);xlabel('time (s)');ylabel('phase (rad)')
-   hold on     ;plot(myposmax/fs,b.yf)
-   sol=sol.*exp(-j*myposmax*a(1));
-   solangle=angle(sol); kp=find(solangle>2); solangle(kp)=solangle(kp)-2*pi;
-   plot(myposmax/fs,solangle,'-')
-   -freq(solution(freq_index))/2
-   frequency_offset=a(1)/2/pi*fs
-
-   % fine frequency offset 
-   df=-frequency_offset;        % transpose again the previous transposed data
-   lo=exp(j*2*pi*df*temps);     % local oscillator LO
-   y=y.*lo;                     % frequency transposition by LO
-   prnmap=xcorr(y,prn);         % prnmap(:,p)=xcorr(y,prn);
-   prnmap=prnmap(floor(length(prnmap)/2):end);
-   ncode=fs/fcode*length(taps);
-   [~,indices]=max(abs(prnmap(1:ncode)));
-   p=1;
+   freq_index=find((freq(solution)/2>freq_offset(k)-2500)&(freq(solution)/2<freq_offset(k)+2500))
+% for df=7000:100:9000          % no need for brute force: we already know possible freq offsets
+   df=mean(freq(solution(freq_index)))/2
+   lo=exp(-j*2*pi*df*temps);     % local oscillator LO
+   indices=[];
+   corrections=[];
+   xvalm1s=[];
+   xvals=[];
+   xvalp1s=[];
+   compteur=0;
+   fichier=fopen(filename);
    do
-       [~,ajustement(p)]=max(abs(prnmap(indices(p)-5:indices(p)+5)));
-       indices(p)=indices(p)+ajustement(p)-5-1;  % sampling rate error
-       [u,v]=polyfit([-1:+1]',abs(prnmap([indices(p)-1:indices(p)+1])),2);
-       correction(p)=-u(2)/2/u(1);
-       p=p+1;
-       indices(p)=indices(p-1)+ncode;
-   until (indices(p)>length(prnmap)-5);
-   indices=indices(1:end-1);
-   figure
-   plot(correction);hold on;plot(ajustement-6)
-   eval(['correction',num2str(k),'=correction;']);
-   eval(['ajustement',num2str(k),'=ajustement;']);
-   eval(['indices',num2str(k),'=indices;']);
-   [a,b]=polyfit(indices',unwrap(angle(prnmap(indices))*2)/2,1);
-   frequency_residue=a(1)/2/pi*fs  % verification: a/2/pi*fs must be close to 0
+     x=fread(fichier,2*length(ref),'float');
+     if (length(x)==2*length(ref))
+       x=x(1:2:end)+j*x(2:2:end);
+       y=x.*lo;                     % frequency transposition by LO
+       prnmap=ifft(fft(y).*fftref); % prnmap(:,p)=xcorr(y,prn);
+       p=1;
+       pos=1;
+       ajustement=0;
+       correction=[];
+       xval=[];
+       xvalm1=[];
+       xvalp1=[];
+       indice=[];
+       do
+         if ((pos+ncode)>length(prnmap))  % last part of data
+            [~,indice(p)]=max(abs(prnmap(pos:end)));
+         else
+            [~,indice(p)]=max(abs(prnmap(pos:pos+ncode)));
+         end
+         xval=[xval prnmap(indice(p))];
+         indice(p)=indice(p)+pos-1;
+         [u,v]=polyfit([-1:+1]',abs(prnmap([indice(p)-1:indice(p)+1])),2);
+         correction(p)=-u(2)/2/u(1);
+         pos=pos+ncode;
+         p=p+1;
+       until (pos>length(prnmap));
+       [a,b]=polyfit([0:length(indice)-1]'*4e-3,unwrap(angle(prnmap(indice))*2)/2,1); % *2 so that [0,pi] becomes [0,2pi]=0
+       frequency_residue=a(1)/2/pi;  % verification: a/2/pi*fs must be close to 0
+       if (abs(frequency_residue)>1) 
+         lo=lo.*exp(-j*2*pi*frequency_residue*temps); printf("frequency changed\n");
+       end
+       indices=[indices indice+compteur*length(ref)];
+       corrections=[corrections correction];
+       xvals=[xvals xval];
+       xvalm1s=[xvalm1s xvalm1];
+       xvalp1s=[xvalp1s xvalp1];
+       compteur=compteur+1
+     end
+   until ((length(x)<length(ref)))
+   eval(['correction',num2str(index(k)),'=corrections;']);
+   eval(['indices',num2str(index(k)),'=indices;']);
+   eval(['xvals',num2str(index(k)),'=xvals;']);
+   eval(['xvalm1s',num2str(index(k)),'=xvalp1s;']);
+   eval(['xvalp1s',num2str(index(k)),'=xvalm1s;']);
+   fclose(fichier);
 end
+final1=200*(diff(indices1+correction1)-20000);    % 200 ns = 1/fs
+final16=200*(diff(indices16+correction16)-20000);
+final=final1-final16;
+figure;subplot(211);plot([0:length(final1)-1]*4e-3,final1);hold on ;plot([0:length(final16)-1]*4e-3,final16)
+xlim([0 11])
+subplot(212);plot([0:length(final)-1]*4e-3,final)
+xlim([0 11])
 figure
-plot(cumsum(ajustement1-6)+correction1);hold on
-plot(cumsum(ajustement16-6)+correction16);
-resultat=cumsum(ajustement1-6)+correction1-cumsum(ajustement16-6)-correction16;
-k=find(abs(resultat-mean(resultat))<3*std(resultat)); % remove outliers
-plot(resultat(k)); xlabel('index (no unit)');ylabel('sampling offset (no unit)')
-legend('OP01','LTFB01','location','northwest')
-time_standard_deviation_ns=std(resultat(k)/fs)*1e9
-time_mean_ns=mean(resultat(k)/fs)*1e9
+subplot(211); plot([0:length(xvals16)-1]*4e-3,unwrap(angle(xvals1)*2)/2)
+hold on     ; plot([0:length(xvals16)-1]*4e-3,unwrap(angle(xvals16)*2)/2)
+legend('OP','LTFB','location','northwest')
+xlabel('time (s)'); xlim([0 11])
+ylabel('unwrapped phase (rad)')
+subplot(212)
+m16=angle(xvals16.*exp(-j*unwrap(angle(xvals16)*2)/2));k=find(m16<-2);m16(k)=m16(k)+2*pi;
+m1=angle(xvals1.*exp(-j*unwrap(angle(xvals1)*2)/2));   k=find(m1<-2);m1(k)=m1(k)+2*pi;
+plot(m1,'x');hold on; plot(m16+0.5,'ro');hold on
+title('xvals1.*exp(-j*unwrap(angle(xvals1)*2)/2)')
+xlabel('time (sample index)')
+ylabel('BPSK message')
+legend('OP','LTFB','location','east')
+time_standard_deviation_ns=std(final)
+time_mean_ns=mean(final)
