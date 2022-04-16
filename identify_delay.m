@@ -164,8 +164,8 @@ for station=1:length(freqoffset)
         k=find(abs(final)<90);final10=final(k);
         plot([0:length(final)-1]*4e-3,final)
         xlabel('time (s)');ylabel('delay (ns)');legend([num2str(stationindex(station)),'-OP1'])
-        mean(final)
-        std(final)
+        meanval=mean(final)
+        sdtval=std(final)
         subplot(222)
         u=angle(xvals.*exp(-j*unwrap(angle(xvals)*2)/2));
         k=find(u<-2);u(k)=u(k)+2*pi;
