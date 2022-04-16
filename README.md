@@ -1,5 +1,5 @@
 # gr-satre
-SATRE modem Two Way Satellite Time and Frequency Transfer receiver implemented as a GNU Radio processing block
+SATRE modem Two Way Satellite Time and Frequency Transfer receiver implemented as a GNU Radio processing block. The SATRE is a proprietary hardware sold by TimeTech but based on the MITREX microwave two-way satellite time transfer modem developed at Univ. of Stuttgart in the 1980s: most information concerning the CDMA and transmitted codes are collected from the open litterature describing the latter (see bibliography/ directory). TimeTech has added a digital communication layer that is not understood yet, since the current investigations focuses on reception for time transfer only.
 
 ## Dataset
 
