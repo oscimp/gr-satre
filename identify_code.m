@@ -29,15 +29,16 @@ fcode=2.5e6;
 dt=0.400              % us = 1/2.5 Mchips/s
 ncode=fs/fcode*10000; % 10000=code length
 
-if (exist("read_complex_binary")==0)
-   printf("Please download read_complex_binary.m at https://github.com/gnuradio/gnuradio/blob/master/gr-utils/octave/read_complex_binary.m")
+if (exist("read_cshort_binary")==0)
+   printf("Please download read_cshort_binary.m at https://raw.githubusercontent.com/gnuradio/gnuradio/master/gr-utils/octave/read_cshort_binary.m\n");
 end
-x=read_complex_binary('210708_16h06UTC_satre_8bit_5MSps_60dB.bin');
+x=read_cshort_binary('220409_08h06_satre2chan_short_5MSps_B210_20dB_50dB_extclk.bin');
+x=x(2:2:end);x=x-mean(x);
 
 %%%%%%%%%%%%%%%%%%%%%%% 
 N=65536*2;   % 10000 bit long @ 2.5 MS/s => 20000 @ 5 MS/s
 freq=linspace(-fs/2,fs/2,N);
-k=find((freq>-90000)&(freq<90000));     % possible frequency offsets (x2)
+k=find((freq>-90000)&(freq<90000)); % possible frequency offsets (x2)
 s=fftshift(abs(fft(x(1:N).^2)));    % cancel BPSK modulation and search offset
 solution=find(s(k)>max(s(k)/4));solution=k(solution);
 dfrange=freq(solution)/2
@@ -51,26 +52,31 @@ subplot(311)
 plot(freq,s);
 hold on
 plot(freq(solution),max(s),'x')
-xlabel('frequency offset (Hz)')
-ylabel('power s^2 (a.u.)')
+xlabel('frequency offset (Hz)');ylabel('power s^2 (a.u.)')
 
 if (exist('prninterp')==0)
-  prninterp=[];
-  for s=1:length(tap)
-    s
-    prn=[];
-    sol=jmf_lfsr(bi2de(fliplr(tap(s,:))));
-    sol=sol(1:1e4);
-    t=0;
-    for m=1:length(sol)  % length of PRN
-      do
-        t=t+1/fs*1e6;
-        prn=[prn sol(m)];
-      until (t>dt);
-      t=t-dt;
-    end 
-    prn=double(prn);prn=prn-mean(prn);
-    prninterp=[prninterp ; conj(fft(prn-mean(prn)))];
+  filelist=dir('prninterp.mat');
+  if (isempty(filelist)==1)
+    prninterp=[];
+    for s=1:length(tap)
+      s
+      prn=[];
+      sol=jmf_lfsr(bi2de(fliplr(tap(s,:))));
+      sol=sol(1:1e4);
+      t=0;
+      for m=1:length(sol)  % length of PRN
+        do
+          t=t+1/fs*1e6;
+          prn=[prn sol(m)];
+        until (t>dt);
+        t=t-dt;
+      end 
+      prn=double(prn(1:end-1));prn=prn-mean(prn);
+      prninterp=[prninterp ; conj(fft(prn))];
+    end
+    save -mat prninterp.mat prninterp
+  else
+    load prninterp.mat
   end
 end
 % prninterp    756x10002
@@ -79,14 +85,13 @@ end
 % r=rand(64);r=r-mean(r);r=fft(r);
 % imagesc(fftshift(abs(ifft(repmat(conj(r(:,40)),1,64).*r)),1))
 
-xrecv=x(end-length(prninterp)+1:end);
-xrecv=xrecv-mean(xrecv);
+xrecv=x(end-length(prninterp)+1:end); xrecv=xrecv-mean(xrecv);
 temps=[0:length(xrecv)-1]'/fs;
 
 for df=dfrange
   figure
   lo=exp(-j*2*pi*df*temps);
-  y=fft(xrecv.*lo);
+  y=fft(xrecv.*lo);  % fft(xcorr(x,y))=fft(x).*conj(fft(y))
   prnmap=(abs(ifft((repmat(y.',length(tap),1).*prninterp)')));
   subplot(311)
   plot(max(prnmap))
