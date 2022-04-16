@@ -39,14 +39,9 @@ for oversampling and finding the error in sampling rate
 
 5. The same sequence is applied to a second station for time delay comparison:
 
-<img src="figures/fig5.png">
-<img src="figures/fig6.png">
-
 6. Finally, the time delay between correlation peaks is displayed, with the absolute delay on
 top drifting due to the erroneous (yet common) sampling rate (red and blue) and the difference
 (yellow) cancelling the impact of the sampling rate, after removal of a few outliers defined when
 above three standard deviations:
-
-<img src="figures/fig7.png">
 
 The standard deviation on the time delay resulting from analyzing this 2.5-s long sequence is 19 ns.
