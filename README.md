@@ -54,3 +54,16 @@ the TX Monitor signal)
 
 The standard deviation ``stdval`` on the time delay resulting from analyzing this 2.5-s long sequence is 5 to 10 ns
 depending on the recorded signal signal to noise ratio.
+
+## Receiving the signal
+
+All satellite link information are documented in the files stored by [BIPM](https://webtai.bipm.org/ftp/pub/tai/data/2022/time_transfer/twstft//). Looking at OP records, the downlink frequency for communications within
+Europe is 10953.9500 MHz while downlink from the US uplink is 11497.0600 MHz. The latter is verified in
+the following measurement taken from a TV satellite reception parabola dish with the LNB local oscillator
+set to 9.75 GHz.
+
+<img src="figures/ZNL_ScreenShot_2022-08-22_10-11-32_OPdownlinkUSfreq.PNG">
+
+From the USNO and NIST files, it can be assumed that the USA downlink frequency is 11747.7400 MHz although
+this link has not been verified experimentally (lacking a parabola dish pointed towards Telstar11N located
+in the USA).
