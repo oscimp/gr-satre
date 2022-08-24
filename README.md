@@ -61,7 +61,7 @@ the TX Monitor signal)
 The standard deviation ``stdval`` on the time delay resulting from analyzing this 2.5-s long sequence is 5 to 10 ns
 depending on the recorded signal signal to noise ratio.
 
-## Receiving the signal
+## Receiving the US-Europe signal
 
 All satellite link information are documented in the files stored by [BIPM](https://webtai.bipm.org/ftp/pub/tai/data/2022/time_transfer/twstft//). Looking at OP records, the downlink frequency for communications within
 Europe is 10953.9500 MHz while downlink from the US uplink is 11497.0600 MHz. The latter is verified in
@@ -73,3 +73,22 @@ set to 9.75 GHz.
 From the USNO and NIST files, it can be assumed that the USA downlink frequency is 11747.7400 MHz although
 this link has not been verified experimentally (lacking a parabola dish pointed towards Telstar11N located
 in the USA).
+
+## On the need for oversampling
+
+The SATRE modulation is BPSK at 2.5 Mchips/s so that sampling at 5 MHz is sufficient for collecting
+all the information transfered over the communication channel. However at 5 MHz, the sampling period
+is only 200 ns and the time resolution of the correlation output is insufficient. A [classical solution](http://jmfriedt.free.fr/interrogateur.pdf)
+is oversampling the correlation peak with a parabolic fit to identify finely the time of flight. Running
+this algorithm on the data sampled at 5 MHz leads to periodic fluctuations whenever the correlation
+peak switches from one sampling interval to the next:
+
+<img src="figures/figures/B210_SATRE_time_fluctuation.png">
+
+Quite surprisingly, interpolating the data (ie not adding any information since interpolation involves zero-padding
+the Fourier transform of the signal and the code product prior to calculating the inverse Fourier transform
+to recover the correlation in the time domain
+$$xcorr(x,y)=iFFT(FFT(x)\cdot FFT^*(y) \Rightarrow ifft(fftshift([zeros(N,1) ; fftshift(fft(x))\cdot fftshift(fft(y)) ; zeros(N,1)]))$$
+) removes such an artifact:
+
+<img src="figures/B210_time_fluctuation_oversample3.png">
