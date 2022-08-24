@@ -83,12 +83,12 @@ is oversampling the correlation peak with a parabolic fit to identify finely the
 this algorithm on the data sampled at 5 MHz leads to periodic fluctuations whenever the correlation
 peak switches from one sampling interval to the next:
 
-<img src="figures/figures/B210_SATRE_time_fluctuation.png">
+<img src="figures/B210_SATRE_time_fluctuation.png">
 
 Quite surprisingly, interpolating the data (ie not adding any information since interpolation involves zero-padding
 the Fourier transform of the signal and the code product prior to calculating the inverse Fourier transform
 to recover the correlation in the time domain
-$$xcorr(x,y)=iFFT(FFT(x)\cdot FFT^*(y) \Rightarrow ifft(fftshift([zeros(N,1) ; fftshift(fft(x))\cdot fftshift(fft(y)) ; zeros(N,1)]))$$
+$$xcorr(x,y)=iFFT(FFT(x)\cdot FFT^*(y) \Rightarrow ifft(fftshift([zeros(N,1) ; fftshift(fft(x))\cdot conj(fftshift(fft(y))) ; zeros(N,1)]))$$
 ) removes such an artifact:
 
 <img src="figures/B210_time_fluctuation_oversample3.png">
