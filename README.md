@@ -101,11 +101,14 @@ ranging signal" and goes on describing the time of flight compensation formula.
 The only information about HiRate is that Besancon Observatory identifier is 727 as displayed on the 
 SATRE modem screen.
 
-Having identified that HiRate is envoded at 250 bps using BPSK, it is quite natural to assume
+Having identified that HiRate is encoded at 250 bps using BPSK, it is quite natural to assume
 differential encoding to avoid π phase rotation of the Costas loop/atan(Q/I) output. The 
 differential encoding of 0d727=0b01011010111 is 100111001111 (start with d(0)=1 and iterate with
 m(k)={0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1}, defining  d(k+1)=1 if d(k)==m(k) and  d(k+1)=0
 [otherwise](https://www.idc-online.com/technical_references/pdfs/electronic_engineering/Differential_Encoding_and_Decoding.pdf).
 
-The cross correlation of the decoded message with this 100111001111 repeats most often every 250 bits so this
-is probably the right track.
+After removal of the differential BPSK encoding, all header/footer bits look similar and the HiRate index code repeats
+every 500 bits or two sentences as shown on the cross-correlation of the ``output`` variable from ``hirate_digital_mode/digi15.m``
+with the binary encoding of 0d727.
+
+<img src="code15_after_diff_removal.png">Bit map</a> after removal of the differential encoding.
