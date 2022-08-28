@@ -111,4 +111,4 @@ After removal of the differential BPSK encoding, all header/footer bits look sim
 every 500 bits or two sentences as shown on the cross-correlation of the ``output`` variable from ``hirate_digital_mode/digi15.m``
 with the binary encoding of 0d727.
 
-<img src="code15_after_diff_removal.png">Bit map</a> after removal of the differential encoding.
+<img src="hirate_digital_mode/code15_after_diff_removal.png">Bit map</a> after removal of the differential encoding.
