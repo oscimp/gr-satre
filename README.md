@@ -103,7 +103,15 @@ SATRE modem screen.
 
 Having identified that HiRate is envoded at 250 bps using BPSK, it is quite natural to assume
 differential encoding to avoid $\pi$ phase rotation of the Costas loop/atan(Q/I) output. The 
-differential encoding of 0d727=0b01011010111 is 100111001111 (start with $d_0=1$ and iterate with
-$m_k=0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1$, defining $d_{k+1}=1$ of $d_k==m_k$ and $d_{k+1}=0$ otherwise.
+differential encoding of 0d727=0b01011010111 is 100111001111 (start with 
+$d_0=1$
+and iterate with
+$m_k=0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1$, defining 
+$d_{k+1}=1$
+if 
+$d_k==m_k$
+and 
+$d_{k+1}=0$
+otherwise.
 The cross correlation of the decoded message with this 100111001111 repeats every 250 bits some this
 is probably the right track.
