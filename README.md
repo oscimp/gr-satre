@@ -92,3 +92,18 @@ $$xcorr(x,y)=iFFT(FFT(x)\cdot FFT^*(y) \Rightarrow ifft(fftshift([zeros(N,1) ; f
 ) removes such an artifact:
 
 <img src="figures/B210_time_fluctuation_oversample3.png">
+
+## Digital mode decoding
+
+The SATRE manual mentions communicating "via HiRate data all necessary information to enable calculation of the predicted arrival of time (PAT) at the satellite by remote modems receiving the 
+ranging signal" and goes on describing the time of flight compensation formula.
+
+The only information about HiRate is that Besancon Observatory identifier is 727 as displayed on the 
+SATRE modem screen.
+
+Having identified that HiRate is envoded at 250 bps using BPSK, it is quite natural to assume
+differential encoding to avoid $\pi$ phase rotation of the Costas loop/atan(Q/I) output. The 
+differential encoding of 0d727=0b01011010111 is 100111001111 (start with $d_0=1$ and iterate with
+$m_k=0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1$, defining $d_{k+1}=1$ of $d_k==m_k$ and $d_{k+1}=0$ otherwise.
+The cross correlation of the decoded message with this 100111001111 repeats every 250 bits some this
+is probably the right track.
