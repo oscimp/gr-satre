@@ -111,4 +111,11 @@ After removal of the differential BPSK encoding, all header/footer bits look sim
 every 500 bits or two sentences as shown on the cross-correlation of the ``output`` variable from ``hirate_digital_mode/digi15.m``
 with the binary encoding of 0d727.
 
-<img src="hirate_digital_mode/code15_after_diff_removal.png">Bit map</a> after removal of the differential encoding.
+Bit map after removal of the differential encoding:
+
+<img src="hirate_digital_mode/code15_after_diff_removal.png">
+
+Comparing the digital signals collected simultaneously and decoded from station 09 and 15 combined as an RGB 
+image exhibits the bits common to all modems and thos individual to each transmission:
+
+<img src="hirate_digital_mode/combined09_15.jpg">
