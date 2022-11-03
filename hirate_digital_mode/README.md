@@ -39,3 +39,10 @@ The missing bits of the Unix time representation still need to be found but at l
 after removing unwanted sentences introduced between those including the time information:
 
 <img src="Screenshot_combined.png">
+
+Some pictures of relevant pages of the SATRE User Manual including screenshots of TimeTech's measurements and the principle
+of operation:
+
+<img src="DSC_0708.JPG">
+
+<img src="DSC_0709.JPG">
