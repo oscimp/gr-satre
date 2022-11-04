@@ -43,9 +43,8 @@ after removing unwanted sentences introduced between those including the time in
 Some pictures of relevant pages of the SATRE User Manual including screenshots of TimeTech's measurements and the principle
 of operation:
 
-<img src="DSC_0708.JPG" width=200>
-
-<img src="DSC_0709.JPG" width=200>
+<img src="DSC_0708.JPG" width=300>
+<img src="DSC_0709.JPG" width=300>
 
 <h1>CRC analysis</h1>
 
