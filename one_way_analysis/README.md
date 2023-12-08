@@ -6,7 +6,7 @@ significantly degrade the receiver clock synchronization performance.
 
 Unless a station keeping burst to bring the satellite back to its position
 occurs, the satellite mechanics is predicted by celestial mechanics as implemented
-in e.g. https://www.orekit.org/, https://nyxspace.com/ or here https://software.nasa.gov/software/GSC-17177-1 (GMAT: General Mission Analysis Tool). We are using release 2022 found
+in e.g. https://www.orekit.org/, https://nyxspace.com/ and https://github.com/nyx-space/anise or here https://software.nasa.gov/software/GSC-17177-1 (GMAT: General Mission Analysis Tool). We are using release 2022 found
 on the Sourceforge, pre-build image for Ubuntu LTS running on a VirtualBox. The only
 modification made to the GMAT archive content is updating the ``gmat_startup_file.txt`` in the
 ``bin/`` directory by modifying ``PLUGIN=../plugins/libPythonInterface_py310`` so that
