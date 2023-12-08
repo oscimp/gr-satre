@@ -116,10 +116,10 @@ file <a href="satre.gmd">satre.gmd</a> starts with
 29947.006238 Range 9002 4 99 80939.476934
 ...
 ```
-after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (satresorted.gmd).
+after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (<a href="satresorted.gmd">satresorted.gmd</a>).
 
 # TODO
 
 * convergence problem after 1st iteration must be solved
-* at the moment only raning information is used while it is desirable to use all communication combinations between all satellites
+* at the moment only ranging information is used while it is desirable to use all communication combinations between all satellites
 * add ionosphere behaviour at 14 GHz uplink/11 GHz downlink
