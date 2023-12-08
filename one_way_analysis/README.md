@@ -11,13 +11,13 @@ on the Sourceforge, pre-build image for Ubuntu LTS running on a VirtualBox. The 
 modification made to the GMAT archive content is updating the ``gmat_startup_file.txt`` in the
 ``bin/`` directory by modifying ``PLUGIN=../plugins/libPythonInterface_py310`` so that
 the default Python3.10 can be used and commeting out ``# PLUGIN=../plugins/libMatlabInterface``
-to remove the Matlab support.
+to remove Matlab support.
 
-We follow tutorial 14 found in the help.html file at 
-docs/help/help.html#Orbit_Estimation_using_DSN_Range_and_Doppler_Data
+We follow tutorial 14 found in the ``help.html`` file at 
+``docs/help/help.html#Orbit_Estimation_using_DSN_Range_and_Doppler_Data``.
 This tutorial considers a deep space mission with velocity and position of the spacecraft
-observed by the Deep Space Network (DSN) and is found in samples/Tut_Orbit_Estimation_using_DSN_Range_and_Doppler_Data.script which is the starting point of our analysis. We must
-adapt this script file to our problem using the following steps:
+observed by the Deep Space Network (DSN) and is found in ``samples/Tut_Orbit_Estimation_using_DSN_Range_and_Doppler_Data.script`` which is the starting point of our 
+analysis. We must adapt this script file to our problem using the following steps:
 
 ## Ground station location and satellite orbital parameters
 
