@@ -1,13 +1,15 @@
-loc={"op/","npl/","ptb/","roa/","sp/","it/"};
+loc={"op/","npl/","ptb/","roa/","sp/","it/","vsl/"};
 
 for l=1:length(loc)
   location=cell2mat(loc(l));
+  observatoire=-1;
   if (strfind(location,'op')==1)  observatoire=0;end
   if (strfind(location,'ptb')==1) observatoire=1;end
   if (strfind(location,'npl')==1) observatoire=2;end
   if (strfind(location,'roa')==1) observatoire=3;end
   if (strfind(location,'sp')==1)  observatoire=4;end
   if (strfind(location,'it')==1)  observatoire=5;end
+  if (strfind(location,'vsl')==1)  observatoire=6;end
   
   dirlist=dir(["twstft/",location,"/tw*"]);
   for dirnum=1:length(dirlist)
