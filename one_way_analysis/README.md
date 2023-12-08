@@ -15,9 +15,9 @@ to remove the Matlab support.
 
 We follow tutorial 14 found in the help.html file at 
 docs/help/help.html#Orbit_Estimation_using_DSN_Range_and_Doppler_Data
-
 This tutorial considers a deep space mission with velocity and position of the spacecraft
-observed by the Deep Space Network (DSN) and is found in samples/Tut_Orbit_Estimation_using_DSN_Range_and_Doppler_Data.script which is the starting point of our analysis.
+observed by the Deep Space Network (DSN) and is found in samples/Tut_Orbit_Estimation_using_DSN_Range_and_Doppler_Data.script which is the starting point of our analysis. We must
+adapt this script file to our problem using the following steps:
 
 ## Ground station location and satellite orbital parameters
 
