@@ -83,13 +83,16 @@ The resulting charts should look like
 
 <img src="2023-12-08-072511_1014x669_scrot.png">
 
+Playing the simulation will show that the satellite rotates around the Earth and gets
+back to its original location after one day.
+
 Now that we are convinced that satellite parameters are correct (the satellite remains at the
 same place with respect to Earth after 1-day) and the ground station locations are accurate,
 be go to fine orbit determination using the two-way time transfer observations.
 
 ## Orbit determination
 
-After downloading the BIPM TWSTFT archive using ````
+After downloading the BIPM TWSTFT archive using
 ```
 wget --recursive --no-parent https://webtai.bipm.org/ftp/pub/tai/data/2023/time_transfer/twstft
 ```
