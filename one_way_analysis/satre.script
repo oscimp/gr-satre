@@ -200,7 +200,7 @@ GMAT Prop.MinStep = 0;
 Create ErrorModel DSNrange;
 
 GMAT DSNrange.Type = 'Range';
-GMAT DSNrange.NoiseSigma = 10;
+GMAT DSNrange.NoiseSigma = 1;
 GMAT DSNrange.Bias = 0;
 
 %----------------------------------------
@@ -241,6 +241,7 @@ GMAT bat.RelativeTol = 0.0001;
 GMAT bat.InversionAlgorithm = 'Internal';
 GMAT bat.MaxConsecutiveDivergences = 3;
 GMAT bat.OLSEInitialRMSSigma = 10000;
+GMAT bat.OLSEUseRMSP = false;
 GMAT bat.OLSEMultiplicativeConstant = 3;
 GMAT bat.OLSEAdditiveConstant = 0;
 
