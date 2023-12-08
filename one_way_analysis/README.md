@@ -77,7 +77,9 @@ GMAT DefaultGroundTrackPlot.Add = {Sat, OP, IT, VSL, PTB, NPL, SP, ROA};
 Propagate DefaultProp(Sat) {Sat.ElapsedSecs = 86400};
 ```
 
-The resulting charts should look like
+When executing in the GUI GMAT interface launched by executing in the ``bin/``
+directory the executable ``GMAT-R2022a``, loading the ``satre_location.script`` and
+executing (right arrow), the resulting charts should look like
 
 <img src="2023-12-07-145316_1014x669_scrot.png">
 
