@@ -128,6 +128,135 @@ The result of the analysis executed in the GUI is as follows during the first it
 <img src="analysis/SP.png">
 <img src="analysis/VSL.png">
 
+but then fails with
+```
+********************************************
+***  GMAT Console Application
+********************************************
+
+General Mission Analysis Tool
+Console Based Version
+Build Date: Jan 10 2023  15:04:14
+
+Moderator is updating data files...
+Moderator is creating core engine...
+Skipping "../plugins/libOpenFramesInterface": GUI plugins are skipped in console mode
+Successfully set Planetary Source to use: DE405
+Successfully set Planetary Source to use: DE405
+Successfully set Planetary Source to use: DE405
+Setting nutation file to ../data/planetary_coeff/NUTATION.DAT
+Setting leap seconds file to ../data/time/tai-utc.dat
+2023-12-08 08:23:33 GMAT Moderator successfully created core engine
+*** Use of MATLAB is disabled from the gmat_startup_file
+Enter a script file, q to quit, or an option:  
+Interpreting scripts from the file.
+***** file: satre.script
+Successfully set Planetary Source to use: DE405
+Successfully set Planetary Source to use: DE405
+Successfully interpreted the script
+.................... Print out the whole sequence ........................................
+   Command::NoOp
+   Command::BeginMissionSequence
+   Command::RunEstimator
+.................... End sequence ........................................................
+Running mission...
+Successfully set Planetary Source to use: DE405
+Successfully set Planetary Source to use: DE405
+Kernel ../data/planetary_ephem/spk/DE405AllPlanets.bsp has been loaded.
+Kernel ../data/planetary_coeff/SPICEPlanetaryConstantsKernel.tpc has been loaded.
+Kernel ../data/time/SPICELeapSecondKernel.tls has been loaded.
+Kernel ../data/planetary_coeff/SPICEEarthPredictedKernel.bpc has been loaded.
+Kernel ../data/planetary_coeff/SPICEEarthCurrentKernel.bpc has been loaded.
+Kernel ../data/planetary_coeff/earth_latest_high_prec.bpc has been loaded.
+Kernel ../data/planetary_coeff/SPICELunaCurrentKernel.bpc has been loaded.
+Kernel ../data/planetary_coeff/SPICELunaFrameKernel.tf has been loaded.
+Number of thrown records due to:
+     .Invalid measurement value : 0
+     .Record duplication or time order : 0
+Data file '../samples/satresortedshort.gmd' has 1753 of 1753 records used for estimation.
+Total number of load records : 1753
+
+List of tracking configurations (present in participant ID) for load records from data file '../samples/satresortedshort.gmd':
+   Config 0: {{0,99,0},Range}
+   Config 1: {{3,99,3},Range}
+   Config 2: {{1,99,1},Range}
+   Config 3: {{2,99,2},Range}
+   Config 4: {{4,99,4},Range}
+   Config 5: {{5,99,5},Range}
+
+****   No tracking configuration was generated because the tracking configuration is defined in the script.
+
+Initializing new mat data writer
+WARNING: Initial Epoch is 59 days away from the first estimation epoch, propagation may take longer than expected.
+********************************************************
+    Performing Estimation (using "bat")
+    
+********************************************************
+
+a priori state:
+   Estimation Epoch:
+   30284.3294216363622684646221 A.1 modified Julian
+   30284.3294212384259258720299 TAI modified Julian
+   05 Dec 2023 19:53:44.995 UTCG
+   Sat.EarthMJ2000Eq.SMA = 42164.9994041
+   Sat.EarthMJ2000Eq.ECC = 0.0002515
+   Sat.EarthMJ2000Eq.INC = 0.0174999999933
+   Sat.EarthMJ2000Eq.RAAN = 349.7528
+   Sat.EarthMJ2000Eq.AOP = 254.4157
+   Sat.EarthMJ2000Eq.TA = 91.1324142549
+
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Warning: measurement epoch 30226.004155397935 A1Mjd is outside EOP time range [7665.500021762034 A1Mjd, 30058.500428638676 A1Mjd]
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Warning: The orbit state transition matrix does not currently contain SRP contributions from shadow partial derivatives when using Spherical SRP.
+Number of Records Removed Due To:
+   . No Computed Value Configuration Available : 0
+   . Out of Ramp Table Range   : 0
+   . Signal Blocked : 0
+   . Initial RMS Sigma Filter  : 0
+   . Outer-Loop Sigma Editor : 0
+Number of records used for estimation: 1753
+
+   WeightedRMS residuals for this iteration : 0.515641681187
+   BestRMS residuals                        : 0.515641681187
+   PredictedRMS residuals for next iteration: 0.021646002011
+
+------------------------------------------------------
+Iteration 1
+
+Current estimated state:
+   Estimation Epoch:
+   30284.3294216363622684646221 A.1 modified Julian
+   30284.3294212384259258720299 TAI modified Julian
+   05 Dec 2023 19:53:44.995 UTCG
+   Sat.EarthMJ2000Eq.SMA = 42186.3671332
+   Sat.EarthMJ2000Eq.ECC = 0.000641556499636
+   Sat.EarthMJ2000Eq.INC = 0.283449221474
+   Sat.EarthMJ2000Eq.RAAN = 83.7829182117
+   Sat.EarthMJ2000Eq.AOP = 261.734554873
+   Sat.EarthMJ2000Eq.TA = 348.860381327
+
+Number of Records Removed Due To:
+   . No Computed Value Configuration Available : 0
+   . Out of Ramp Table Range   : 0
+   . Signal Blocked : 0
+   . Initial RMS Sigma Filter  : 0
+   . Outer-Loop Sigma Editor : 1753
+Number of records used for estimation: 0
+Estimator Exception: Error: For Batch estimator bat, there are 6 solve-for parameters, and only 0 valid observable records remaining after editing. Please modify data editing criteria or provide a better a-priori estimate.
+
+ *** Mission run failed.
+===> Total Run Time: 215.402 seconds
+
+========================================
+EXITing GmatConsole with exit code 1
+Console Application Execution Failed: Moderator::RunMission failed
+```
+
 # TODO
 
 * convergence problem after 1st iteration must be solved
