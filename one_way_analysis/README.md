@@ -1,4 +1,4 @@
-# Geostationary satellite modelling using GMAT
+# Geostationary satellite modelling using GMAT
 
 If using Telstar11N relayed TWSTFT for one-way communication to a passive
 user, the satellite motion around its equilibrium location by +/-75 us will
@@ -116,3 +116,9 @@ file satre.gmd starts with
 ...
 ```
 after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (satresorted.gmd).
+
+# TODO
+
+* convergence problem after 1st iteration must be solved
+* at the moment only raning information is used while it is desirable to use all communication combinations between all satellites
+* add ionosphere behaviour at 14 GHz uplink/11 GHz downlink
