@@ -120,13 +120,13 @@ after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (<a href="
 
 The result of the analysis executed in the GUI is as follows during the first iteration
 
-<img src="analysis/IT.png">
-<img src="analysis/NPL.png">
-<img src="analysis/OP.png">
-<img src="analysis/PTB.png">
-<img src="analysis/ROA.png">
-<img src="analysis/SP.png">
-<img src="analysis/VSL.png">
+<img src="analysis/IT.png" width=300>
+<img src="analysis/NPL.png" width=300>
+<img src="analysis/OP.png" width=300>
+<img src="analysis/PTB.png" width=300>
+<img src="analysis/ROA.png" width=300>
+<img src="analysis/SP.png" width=300>
+<img src="analysis/VSL.png" width=300>
 
 but then fails with
 ```
@@ -256,6 +256,22 @@ Estimator Exception: Error: For Batch estimator bat, there are 6 solve-for param
 EXITing GmatConsole with exit code 1
 Console Application Execution Failed: Moderator::RunMission failed
 ```
+
+After
+* making sure that the measurement files were timestamped as TAI and not UTC as provided by BIPM
+(TAI=UTC+37 seconds)
+* reducing the duration of the analysis
+* reducing the standard deviation sigma
+* adding the ``bat.OLEUseRMSP=false``
+the solution did converge as seen on the follownig residual plots:
+
+<img src="analysis/ITconverged.png" width=300>
+<img src="analysis/NPLconverged.png" width=300>
+<img src="analysis/OPconverged.png" width=300>
+<img src="analysis/PTBconverged.png" width=300>
+<img src="analysis/ROAconverged.png" width=300>
+<img src="analysis/SPconverged.png" width=300>
+<img src="analysis/VSLconverged.png" width=300>
 
 # TODO
 
