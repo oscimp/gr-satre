@@ -260,5 +260,6 @@ Console Application Execution Failed: Moderator::RunMission failed
 # TODO
 
 * convergence problem after 1st iteration must be solved
-* at the moment only ranging information is used while it is desirable to use all communication combinations between all satellites
+* at the moment only ranging information is used while it is desirable to use all communication combinations between 
+all grond stations (X,99,Y)
 * add ionosphere behaviour at 14 GHz uplink/11 GHz downlink
