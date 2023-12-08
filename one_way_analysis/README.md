@@ -101,13 +101,13 @@ wget --recursive --no-parent https://webtai.bipm.org/ftp/pub/tai/data/2023/time_
 we produce the GMD file including date in MJD-30000, station name, observable (Range) and
 observable type (9002 for two-way spacecraft-ground measurement in km), and measurement by 
 multiplying the time of flight with the speed of light
-in km/s as found in <a href="go.m">. This is also the file where an index is arbitrarily assigned to
+in km/s as found in <a href="go.m">go.m</a>. This is also the file where an index is arbitrarily assigned to
 each observatory, matching the definition in the script file: we have selected
 OP=0, PTB=1, NPL=2, ROA=3, SP=4, IT=5. The fields including the date as MJD-30000, nature
 of the observation (Range) and Observation type index number (9002), station index,
 satellite index (99 arbitrarily to match the script definition) and measurement as the
 two-way time of flight measurement multiplied by the speed of light in km/s. The resulting
-file <a href="satre.gmd"> starts with
+file <a href="satre.gmd">satre.gmd</a> starts with
 ```
 29947.006238 Range 9002 0 99 78717.485944
 29947.006238 Range 9002 1 99 80017.802697
