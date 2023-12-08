@@ -265,13 +265,13 @@ After
 * adding the ``bat.OLEUseRMSP=false``
 the solution did converge as seen on the follownig residual plots:
 
-<img src="analysis/ITconverged.png" width=300>
-<img src="analysis/NPLconverged.png" width=300>
-<img src="analysis/OPconverged.png" width=300>
-<img src="analysis/PTBconverged.png" width=300>
-<img src="analysis/ROAconverged.png" width=300>
-<img src="analysis/SPconverged.png" width=300>
-<img src="analysis/VSLconverged.png" width=300>
+<img src="analysis/ITconverged.png">
+<img src="analysis/NPLconverged.png">
+<img src="analysis/OPconverged.png">
+<img src="analysis/PTBconverged.png">
+<img src="analysis/ROAconverged.png">
+<img src="analysis/SPconverged.png">
+<img src="analysis/VSLconverged.png">
 
 # TODO
 
