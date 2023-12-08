@@ -120,13 +120,13 @@ after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (<a href="
 
 The result of the analysis executed in the GUI is as follows during the first iteration
 
-<img src="analysis/IT.png"</a>
-<img src="analysis/NPL.png"</a>
-<img src="analysis/OP.png"</a>
-<img src="analysis/PTB.png"</a>
-<img src="analysis/ROA.png"</a>
-<img src="analysis/SP.png"</a>
-<img src="analysis/VSL.png"</a>
+<img src="analysis/IT.png">
+<img src="analysis/NPL.png">
+<img src="analysis/OP.png">
+<img src="analysis/PTB.png">
+<img src="analysis/ROA.png">
+<img src="analysis/SP.png">
+<img src="analysis/VSL.png">
 
 # TODO
 
