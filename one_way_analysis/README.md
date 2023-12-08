@@ -120,13 +120,13 @@ after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (<a href="
 
 The result of the analysis executed in the GUI is as follows during the first iteration
 
-<img src="analysis/IT.png" width=300>
-<img src="analysis/NPL.png" width=300>
-<img src="analysis/OP.png" width=300>
-<img src="analysis/PTB.png" width=300>
-<img src="analysis/ROA.png" width=300>
-<img src="analysis/SP.png" width=300>
-<img src="analysis/VSL.png" width=300>
+<img src="analysis/IT.png">
+<img src="analysis/NPL.png">
+<img src="analysis/OP.png">
+<img src="analysis/PTB.png">
+<img src="analysis/ROA.png">
+<img src="analysis/SP.png">
+<img src="analysis/VSL.png">
 
 but then fails with
 ```
