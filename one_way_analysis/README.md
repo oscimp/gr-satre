@@ -118,6 +118,16 @@ file <a href="satre.gmd">satre.gmd</a> starts with
 ```
 after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (<a href="satresorted.gmd">satresorted.gmd</a>).
 
+The result of the analysis executed in the GUI is as follows during the first iteration
+
+<img src="analysis/IT.png"</a>
+<img src="analysis/NPL.png"</a>
+<img src="analysis/OP.png"</a>
+<img src="analysis/PTB.png"</a>
+<img src="analysis/ROA.png"</a>
+<img src="analysis/SP.png"</a>
+<img src="analysis/VSL.png"</a>
+
 # TODO
 
 * convergence problem after 1st iteration must be solved

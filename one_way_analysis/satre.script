@@ -16,13 +16,13 @@ GMAT Sat.DateFormat = UTCGregorian;
 GMAT Sat.Epoch = '05 Dec 2023 19:53:44.995';
 GMAT Sat.CoordinateSystem = EarthMJ2000Eq;
 GMAT Sat.DisplayStateType = Keplerian;
-GMAT Sat.SMA = 42164.99940414229;
-GMAT Sat.ECC = 0.0002514999999993337;
-GMAT Sat.INC = 0.01749999999332662;
-GMAT Sat.RAAN = 349.7528;
-GMAT Sat.AOP = 254.4157000001674;
-GMAT Sat.TA = 91.1324142548325;
-GMAT Sat.DryMass = 850;
+GMAT Sat.SMA = 42165.;
+GMAT Sat.ECC = 0.0002515; 
+GMAT Sat.INC = 0.0175;
+GMAT Sat.RAAN = 349.75;
+GMAT Sat.AOP = 254.4157;
+GMAT Sat.TA = 91.13241425545658;
+GMAT Sat.DryMass = 4012;
 GMAT Sat.Cd = 2.2;
 GMAT Sat.Cr = 1.8;
 GMAT Sat.DragArea = 15;
@@ -297,16 +297,6 @@ GMAT Prop.MinStep = 0;
 GMAT Prop.MaxStep = 2700;
 GMAT Prop.MaxStepAttempts = 50;
 GMAT Prop.StopIfAccuracyIsViolated = true;
-
-Create Propagator DefaultProp;
-GMAT DefaultProp.FM = Fm;
-GMAT DefaultProp.Type = RungeKutta89;
-GMAT DefaultProp.InitialStepSize = 60;
-GMAT DefaultProp.Accuracy = 9.999999999999999e-12;
-GMAT DefaultProp.MinStep = 0.001;
-GMAT DefaultProp.MaxStep = 2700;
-GMAT DefaultProp.MaxStepAttempts = 50;
-GMAT DefaultProp.StopIfAccuracyIsViolated = true;
 
 %----------------------------------------
 %---------- ErrorModels
