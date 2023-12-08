@@ -275,7 +275,8 @@ the solution did converge as seen on the follownig residual plots:
 
 # TODO
 
-* convergence problem after 1st iteration must be solved
+* convergence problem after 1st iteration must be solved: check convergence quality? improve?
 * at the moment only ranging information is used while it is desirable to use all communication combinations between 
 all grond stations (X,99,Y)
 * add ionosphere behaviour at 14 GHz uplink/11 GHz downlink
+* output satellite position in space to compensate for one-way time transfer
