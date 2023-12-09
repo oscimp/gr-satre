@@ -90,7 +90,7 @@ back to its original location after one day.
 
 Now that we are convinced that satellite parameters are correct (the satellite remains at the
 same place with respect to Earth after 1-day) and the ground station locations are accurate,
-be go to fine orbit determination using the two-way time transfer observations.
+we go to fine orbit determination using the two-way time transfer observations.
 
 ## Orbit determination
 
