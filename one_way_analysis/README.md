@@ -274,6 +274,21 @@ the solution did converge as seen on the follownig residual plots:
 <img src="analysis/SPconverged.png">
 <img src="analysis/VSLconverged.png">
 
+In this demonstration leading to the final result <a href="satre_orbit.report">satre_orbit.report</a> the convergence criterion
+``GMAT bat.RelativeTol = 1e-9;`` to force a 5th iteration but that seems not to improve over the 4th result (at least watching
+the residual).
+
+The final result seems disappointing as
+```
+Iter RecNum  UTCGregorian-Epoch     Obs-Type Parti.   Observed (O)  Computed (C)  Residual  Elev.
+ 4 831      05 Dec 2023 04:59:22.021  Range  4,99,4   80907.989978  80907.983326  0.006652  11.15
+ 4 832      05 Dec 2023 04:59:22.021  Range  6,99,6   79321.389443  79323.446412 -2.056969  18.81
+ 4 833      05 Dec 2023 06:02:22.021  Range  6,99,6   79325.752827  79326.606840 -0.854013  18.82
+ 4 834      05 Dec 2023 06:05:21.992  Range  0,99,0   78690.264496  78689.311680  0.952816  22.05
+```
+shows 6 m residual for SP-T11N-SP but -2 km and -854 m for VSL-T11N-VSL or 6.7 microseconds.
+
+
 # TODO
 
 * convergence problem after 1st iteration must be solved: check convergence quality? improve?
@@ -281,3 +296,4 @@ the solution did converge as seen on the follownig residual plots:
 all grond stations (X,99,Y)
 * add ionosphere behaviour at 14 GHz uplink/11 GHz downlink
 * output satellite position in space to compensate for one-way time transfer
+* extend analysis duration until a manoeuvre becomes visible (14 days at most)
