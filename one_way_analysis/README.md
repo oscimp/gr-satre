@@ -263,6 +263,7 @@ After
 * reducing the duration of the analysis
 * reducing the standard deviation sigma
 * adding the ``bat.OLEUseRMSP=false``
+* updating the database files by running in ``utilities/python`` the script ``python3 ./GMATDataFileManager.py``
 the solution did converge as seen on the follownig residual plots:
 
 <img src="analysis/ITconverged.png">
