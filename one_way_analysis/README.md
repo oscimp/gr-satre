@@ -301,9 +301,9 @@ shows 6 m residual for SP-T11N-SP but -2 km and -854 m for VSL-T11N-VSL or 6.7 m
 deviation.*
 
 * at the moment only ranging information is used while it is desirable to use all 
-communication combinations between all grond stations (X,99,Y)
+communication combinations between all grond stations (X,99,Y).
 * add ionosphere behaviour at 14 GHz uplink/11 GHz downlink and check impact of satellite 
-transponder delay
+transponder delay:
 
 *From ITU-R P.531-11 "Ionospheric propagation data and prediction methods requires for the
 design of satellite services and systems", iono delay is (Eq. 4) 1.345e-7xN_t/f^2 and
@@ -312,5 +312,10 @@ Still would be interesting to know why the updated ig_rz.dat fails to load. When
 the original ig_rz.dat, GMAT complains it cannot work at a frequency other than 7.2 GHz.*
 
 * add solar radiation pressure since the area of solar panels is not described at the moment
+
+*SRPArea and DragArea properly documented from the Telstar11N manual + 10 ns transponder 
+delay as documented from the group delay in the T11N manual. No improvement on the result.
+What is TurnAroundRatio ?!*
+
 * output satellite position in space to compensate for one-way time transfer
 * extend analysis duration until a manoeuvre becomes visible (14 days at most)
