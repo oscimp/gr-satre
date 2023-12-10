@@ -100,9 +100,9 @@ wget --recursive --no-parent https://webtai.bipm.org/ftp/pub/tai/data/2023/time_
 ```
 we produce the GMD file including date in MJD-30000, station name, observable (Range) and
 observable type (9002 for two-way spacecraft-ground measurement in km), and measurement by 
-multiplying the time of flight with the speed of light
-in km/s as found in <a href="go.m">go.m</a>. This is also the file where an index is arbitrarily assigned to
-each observatory, matching the definition in the script file: we have selected
+multiplying the time of flight with the speed of light in km/s as found in the GNU Octave 
+<a href="go.m">go.m</a> script. This is also the file where an index is arbitrarily assigned 
+to each observatory, matching the definition in the script file: we have selected
 OP=0, PTB=1, NPL=2, ROA=3, SP=4, IT=5. The fields including the date as MJD-30000, nature
 of the observation (Range) and Observation type index number (9002), station index,
 satellite index (99 arbitrarily to match the script definition) and measurement as the
@@ -118,7 +118,11 @@ file <a href="satre.gmd">satre.gmd</a> starts with
 ```
 after sorting (``cat satre.gmd | sort > satresorted.gmd``) the output (<a href="satresorted.gmd">satresorted.gmd</a>).
 
-The result of the analysis executed in the GUI is as follows during the first iteration
+The result of the analysis executed in the GUI or in the CLI from the ``bin/`` directory with 
+```
+./GmatConsole-R2022a satre.script
+``` 
+is as follows during the first iteration
 
 <img src="analysis/IT.png">
 <img src="analysis/NPL.png">
@@ -292,9 +296,21 @@ shows 6 m residual for SP-T11N-SP but -2 km and -854 m for VSL-T11N-VSL or 6.7 m
 # TODO
 
 * check convergence quality? improve to reach sub-10 m residual ?
-* at the moment only ranging information is used while it is desirable to use all communication combinations between 
-all grond stations (X,99,Y)
-* add ionosphere behaviour at 14 GHz uplink/11 GHz downlink and check impact of satellite transponder delay
+
+*Tested with 7-day long simulation, offset by 0 to 6 days: no improvement on the standard
+deviation.*
+
+* at the moment only ranging information is used while it is desirable to use all 
+communication combinations between all grond stations (X,99,Y)
+* add ionosphere behaviour at 14 GHz uplink/11 GHz downlink and check impact of satellite 
+transponder delay
+
+*From ITU-R P.531-11 "Ionospheric propagation data and prediction methods requires for the
+design of satellite services and systems", iono delay is (Eq. 4) 1.345e-7xN_t/f^2 and
+will account for at most 6 ns at N_t=1e19 el/m^2 and f=14 GHz so negligible at the moment. 
+Still would be interesting to know why the updated ig_rz.dat fails to load. When using
+the original ig_rz.dat, GMAT complains it cannot work at a frequency other than 7.2 GHz.*
+
 * add solar radiation pressure since the area of solar panels is not described at the moment
 * output satellite position in space to compensate for one-way time transfer
 * extend analysis duration until a manoeuvre becomes visible (14 days at most)

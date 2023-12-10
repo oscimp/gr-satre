@@ -1,9 +1,3 @@
-%   . Signal Blocked : 214
-% error between local time and UTC
-%  . Initial RMS Sigma Filter  : 36
-% excessively low NoiseSigma
-
-
 %----------------------------------------
 %---------- Spacecraft
 %----------------------------------------
@@ -25,7 +19,8 @@ GMAT Sat.TA = 91.13241425545658;
 GMAT Sat.DryMass = 4012;
 GMAT Sat.Cd = 2.2;
 GMAT Sat.Cr = 1.8;
-GMAT Sat.DragArea = 15;
+GMAT Sat.DragArea = 60;
+GMAT Sat.SRPArea = 60;  % 642 ft^2 = 60 m^2
 GMAT Sat.Id = '99';
 GMAT Sat.AddHardware = {HGA, SatTransponder};
 GMAT Sat.SolveFors = {'CartesianState'};
@@ -38,10 +33,10 @@ GMAT Sat.SolveFors = {'CartesianState'};
 
 Create Antenna HGA;
 Create Transponder SatTransponder;
-GMAT SatTransponder.HardwareDelay = 1e-06;     %in seconds
+GMAT SatTransponder.HardwareDelay = 10e-09;    %in seconds: see Appendix A of Telstar11N manual
 
 GMAT SatTransponder.PrimaryAntenna = HGA;
-GMAT SatTransponder.TurnAroundRatio = '880/749';
+GMAT SatTransponder.TurnAroundRatio = '749/749'; % ??? JMF
 
 %-----------------------------------------------------------------------------------------
 %%      Create and configure the Ground Station and related parameters
@@ -75,7 +70,7 @@ GMAT OP.Location3 = 0.078;
 GMAT OP.Id = '0';
 GMAT OP.AddHardware = {DSNTransmitter, DSNAntenna, DSNReceiver};
 GMAT OP.IonosphereModel = 'None';
-%OP.IonosphereModel       = 'IRI2007';
+% GMAT OP.IonosphereModel       = 'IRI2007';
 GMAT OP.TroposphereModel = 'HopfieldSaastamoinen';
 GMAT OP.MinimumElevationAngle = 7;
 GMAT OP.ErrorModels = {DSNrange};
@@ -141,8 +136,6 @@ GMAT ROA.MinimumElevationAngle = 7;
 GMAT ROA.ErrorModels = {DSNrange};
 
 Create GroundStation IT;
-GMAT IT.OrbitColor = Thistle;
-GMAT IT.TargetColor = DarkGray;
 GMAT IT.CentralBody = Earth;
 GMAT IT.StateType = Spherical;
 GMAT IT.HorizonReference = Ellipsoid;
@@ -158,8 +151,6 @@ GMAT IT.MinimumElevationAngle = 7;
 GMAT IT.ErrorModels = {DSNrange};
 
 Create GroundStation VSL;
-GMAT VSL.OrbitColor = Thistle;
-GMAT VSL.TargetColor = DarkGray;
 GMAT VSL.CentralBody = Earth;
 GMAT VSL.StateType = Spherical;
 GMAT VSL.HorizonReference = Ellipsoid;
@@ -200,7 +191,7 @@ GMAT Prop.MinStep = 0;
 Create ErrorModel DSNrange;
 
 GMAT DSNrange.Type = 'Range';
-GMAT DSNrange.NoiseSigma = 1;
+GMAT DSNrange.NoiseSigma = 0.1;
 GMAT DSNrange.Bias = 0;
 
 %----------------------------------------
@@ -231,15 +222,15 @@ Create BatchEstimator bat;
 
 GMAT bat.ShowProgress = true;
 GMAT bat.ReportStyle = Normal;
-GMAT bat.ReportFile = 'Orbit Estimation using DSN Range and Doppler Data.report';
+GMAT bat.ReportFile = 'satre_orbit.report';
 GMAT bat.Measurements = {DSNsimData};
 GMAT bat.Propagator = Prop
 GMAT bat.ShowAllResiduals = On;
-GMAT bat.MatlabFile = 'Orbit Estimation using DSN Range and Doppler Data.mat';
+GMAT bat.MatlabFile = 'satre_orbit.mat';
 GMAT bat.AbsoluteTol = 0.001;
-GMAT bat.RelativeTol = 0.0001;
+GMAT bat.RelativeTol = 1e-9;
 GMAT bat.InversionAlgorithm = 'Internal';
-GMAT bat.MaxConsecutiveDivergences = 3;
+GMAT bat.MaxConsecutiveDivergences = 5;
 GMAT bat.OLSEInitialRMSSigma = 10000;
 GMAT bat.OLSEUseRMSP = false;
 GMAT bat.OLSEMultiplicativeConstant = 3;
@@ -249,9 +240,11 @@ GMAT bat.OLSEAdditiveConstant = 0;
 %---------- Subscribers
 %----------------------------------------
 
+Create Variable PosX PosY PosZ VelX VelY VelZ
+
 Create ReportFile rf;
 GMAT rf.Filename = 'Estimation_Error.report';
-GMAT rf.WriteHeaders = false;
+GMAT rf.WriteHeaders = true;
 
 %----------------------------------------
 %---------- Arrays, Variables, Strings
@@ -261,12 +254,16 @@ GMAT rf.WriteHeaders = false;
 %%      Run the mission 
 %-----------------------------------------------------------------------------------------
 
-%----------------------------------------
-%---------- Mission Sequence
-%----------------------------------------
-
-
 BeginMissionSequence;
 % Check station and Sat location: see screenshot
 % Propagate DefaultProp(Sat) {Sat.ElapsedSecs = 86400};
 RunEstimator bat
+
+PosX= Sat.EarthMJ2000Eq.X 
+PosY= Sat.EarthMJ2000Eq.Y 
+PosZ= Sat.EarthMJ2000Eq.Z 
+VelX= Sat.EarthMJ2000Eq.VX 
+VelY= Sat.EarthMJ2000Eq.VY 
+VelZ= Sat.EarthMJ2000Eq.VZ 
+
+Report rf PosX PosY PosZ VelX VelY VelZ
