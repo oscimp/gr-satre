@@ -292,6 +292,17 @@ Iter RecNum  UTCGregorian-Epoch     Obs-Type Parti.   Observed (O)  Computed (C)
 ```
 shows 6 m residual for SP-T11N-SP but -2 km and -854 m for VSL-T11N-VSL or 6.7 microseconds.
 
+Interestingly enough, after convergence the solution is completely different from the original parameters deduced from the TLE analysis and conversion to Keplers:
+```
+                               Iteration5   Iteration4   Iteration3   Iteration2   Iteration1   A priori(TLE)
+1 Sat.EarthMJ2000Eq.SMA  km     42164.312    42164.312    42164.343    42163.087   42189.0186     42165.000   
+2 Sat.EarthMJ2000Eq.ECC        0.00029307   0.00029308   0.00029316   0.00029003   0.00062021    0.00025150       
+3 Sat.EarthMJ2000Eq.INC  deg   0.17985757   0.17986262   0.17973784   0.17279207   0.18113320    0.01750000
+4 Sat.EarthMJ2000Eq.RAAN deg  92.54306668  92.54388568  92.53551540  98.16849809  93.16270124  349.75280000  
+5 Sat.EarthMJ2000Eq.AOP  deg 306.74494739 306.74335603 306.67835974 307.08439919 267.04987210  254.41570000
+6 Sat.EarthMJ2000Eq.MA   deg 295.06551791 295.06628983 295.13973249 289.13468142 334.13289717   91.10359574   
+```
+
 # TODO
 
 * check convergence quality? improve to reach sub-10 m residual ?
