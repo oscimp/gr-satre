@@ -46,6 +46,13 @@ of operation:
 <img src="DSC_0708.JPG" width=300>
 <img src="DSC_0709.JPG" width=300>
 
+Also, the SATRE Monitoring and Control Interface manual mentions (p.33) that "HiRate Data received w/o inversion" (symbol +) or
+"HiRate Data received with inversion" (symbol -) so the encoding is probably *not* differential but detects phase inversion at
+the beginning of the sentence. Similarly in the SATRE User Manual, page 23: "The sign (-) or (+) shows the polarity of the decoded 
+high rate data. There is no performance difference between (+) and (-). If we encounter a bit error in a data packet by checking 
+the CRC/ECC correction, a CRC is displayed during that second. If the sign changes between (+) and (-), the data payload has some 
+cycle slips, which usually cause bit errors. The bit error rate after error correction is normally below 1 packet per 1000."
+
 <h1>CRC analysis</h1>
 
 As described in this <a href="https://hackaday.com/2019/06/27/reverse-engineering-cyclic-redundancy-codes/">Hackaday news</a>, CRC reverse engineering can be tackled using various tools including <a href="https://reveng.sourceforge.io/readme.htm">CRC RevEng</a>. After dumping the bit sequence of one of the modems (SP01 with SN 262 code 3), the result is
