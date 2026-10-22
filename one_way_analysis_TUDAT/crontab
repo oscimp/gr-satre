@@ -9,3 +9,4 @@
 46 */2 * * *  /tmp/crontab.sh
 51 */2 * * *  /tmp/crontab.sh
 58 */2 * * *  /tmp/crontab.sh
+10 */1 * * *  /tmp/upload.sh

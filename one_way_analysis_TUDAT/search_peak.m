@@ -7,7 +7,7 @@ format long
 fs=5e6;                                     % sampling rate
 fcode=2.5e6;                                % SATRE code rate
 Ncode=1e4;                                  % SATRE code length
-N=6e5*2                                     % chunk size (arbitrary)
+N=4e5*2                                     % chunk size (arbitrary)
 display_fig=0;
 Nint=1;                                     % interpolation by 2xN+1
 P=20                                        % number of stations searched
@@ -41,10 +41,10 @@ for l=1:length(dd)                          % loop through records
   poscnt=ones(size(taps)(1),1);
   fileindex=0;
   do
-    if (length(dold)<Nelems)
+    if (length(dold)<Nelems/(2*Nint+1))
        d=fread(f,2*N,'float');              % assume 32 bit complex float
     else
-       d=fread(f,2*N-2*2*Nelems,'float');   % assume 32 bit complex float
+       d=fread(f,2*N-2*2*Nelems/(2*Nint+1),'float');   % assume 32 bit complex float
     end
     d=[dold ; d(1:2:end)+j*d(2:2:end)];
     if (length(d)==N)
@@ -104,7 +104,9 @@ for l=1:length(dd)                          % loop through records
             st=d.*exp(-j*2*pi*df(figpos)*t);
             sf=[zeros(Nint*N,1) ; fftshift(fft(st)).*hamming(length(d)) ; zeros(Nint*N,1)]; % interpolate
             sol=abs(ifft(fftshift(sf.*codef(:,m)))); % codef is already conj(fft)
-            [station,poscnt,position]=search_peaks(Nelems,sol,station,position,poscnt,fileindex,Nint,m,N);
+	    if (poscnt(m)<1240)
+               [station,poscnt,position]=search_peaks(Nelems,sol,station,position,poscnt,fileindex,Nint,m,N);
+	    end
           end
 	end
         figpos=figpos+1;
@@ -114,8 +116,11 @@ for l=1:length(dd)                          % loop through records
 	df(figpos:end)=999;
       end
       fileindex=fileindex+1;                % position within the file
-      dold=d(end-2*Nelems+1:end);
+      dold=d(end-2*Nelems/(2*Nint+1)+1:end);% keep last items (@ fs)
     end
+       length(d)
+    length(position)
   until (length(d)<N)
 end
-save -mat all.mat position station ressave dfstation df
+save -mat all.mat position station dfstation df
+% remove ressave to save space
