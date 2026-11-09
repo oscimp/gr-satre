@@ -43,7 +43,7 @@ def add_j2000_epochs(df):
     converter = time_representation.default_time_scale_converter()
 
     def compute_j2000_seconds(row):
-        utc_j2000 = row['unix'] + 3.5 - 946728000.0
+        utc_j2000 = row['unix'] + 2.5 - 946728000.0
         return converter.convert_time(time_representation.utc_scale, time_representation.tdb_scale, utc_j2000)
 
     df['epoch_j2000_s'] = df.apply(compute_j2000_seconds, axis=1)

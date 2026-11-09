@@ -48,3 +48,13 @@ def base_predict(station_1, station_2, time, bodies, df, sim_start_epoch, sim_en
     travel_time_s = result.get_single_observation_sets()[0].concatenated_observations[0] / SPEED_OF_LIGHT
     
     return travel_time_s
+
+# Temps de vol station_1 -> sat -> station_2 avec l'orbite estimee ET en incluant les biais de stations estimes
+def predict_actual_flight(station_tx, station_rx, time_str, bodies, df, start_epoch, end_epoch, estimated_biases_m, c):
+    travel_time_s = base_predict(station_tx, station_rx, time_str, bodies, df, start_epoch, end_epoch)
+    if travel_time_s:
+        tx_bias_s = estimated_biases_m.get(station_tx, 0.0) / c
+        rx_bias_s = estimated_biases_m.get(station_rx, 0.0) / c
+        actual_time_s = travel_time_s + tx_bias_s + rx_bias_s
+        print(f"[ACTUAL] {station_tx} -> sat -> {station_rx} à {time_str} : {actual_time_s :.12f} s")
+    return travel_time_s

@@ -29,15 +29,18 @@ def setup_estimator(bodies, propagator_settings, observation_settings_list, link
 
     return estimator, parameters_to_estimate
 
-# Determination d'orbite avec le solver de Tudat (10 iterations max) avec l'a priori sur le TLE
+# Determination d'orbite avec le solver de Tudat avec l'a priori sur le TLE
 def run_orbit_determination(bodies, acceleration_models, observation_collection, observation_settings_list,
                             link_definitions, initial_parameters, apriori_sigma, start_epoch, end_epoch):
     SPEED_OF_LIGHT = 299792458.0
     propagator_settings = setup_propagator(bodies, acceleration_models, start_epoch, end_epoch, initial_parameters[:6])
     estimator, parameters = setup_estimator(bodies, propagator_settings, observation_settings_list, link_definitions)
+    
     estimation_input = estimation_analysis.EstimationInput(observation_collection,
         inverse_apriori_covariance=np.diag(1.0 / np.array(apriori_sigma) ** 2),
-        convergence_checker=estimation_analysis.estimation_convergence_checker(maximum_iterations=10))
+        convergence_checker=estimation_analysis.estimation_convergence_checker(),
+        apply_apriori_parameter_deviation=True
+    )
     estimation_input.define_estimation_settings(print_output_to_terminal=False)
     estimation_output = estimator.perform_estimation(estimation_input)
 

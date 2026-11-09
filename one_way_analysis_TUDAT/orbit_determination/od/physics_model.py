@@ -54,16 +54,13 @@ def wgs84(lat, lon, alt):
 
 
 # Déclaration de l'environment physique de Tudat, Terre, soleil, sat, stations etc ..
-def setup_environment(start_epoch, end_epoch, stations_coords):
+def setup_environment(start_epoch, end_epoch, stations_coords, tle1, tle2):
     bodies_to_create = ["Earth", "Sun", "Moon"]
     body_settings = default_body_settings(bodies_to_create)
 
     body_settings.add_empty_settings("Telstar11N")
     body_settings.get("Telstar11N").constant_mass = 4000.0
 
-    # 15 Octobre 2026 22:18
-    tle1 = "1 34111U 09009A   26288.92948087 -.00000249  00000-0  00000-0 0  9997"
-    tle2 = "2 34111   0.0337  83.5888 0002616 122.8963 115.0644  1.00272063 47453"
     body_settings.get("Telstar11N").ephemeris_settings = environment_setup.ephemeris.tabulated(
         tle_states(tle1, tle2, start_epoch - 3600.0, end_epoch + 3600.0), "Earth", "J2000")
 
